@@ -30,7 +30,8 @@ class AdminController extends Controller
 
     public function index()
     {
-        //
+        $users = User::all();
+        return view('admin.users', compact('users'));
     }
 
    
@@ -121,6 +122,16 @@ class AdminController extends Controller
 
               return redirect()->route("admin.dashboard");
              }
+
+     }
+
+     public function filterUsers(Request $request){
+
+      $status = $request->query('status');
+
+      $users = $status === 'all' ? User::all() : User::where('status', $status)->get();
+
+      return view('admin._user-cards', compact('users')); 
 
      }
 

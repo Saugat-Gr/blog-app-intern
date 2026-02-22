@@ -53,4 +53,14 @@ class User extends Authenticatable
     public function userrequest(){  
           return $this->hasOne(UserRequest::class, 'user_id', 'id');
     }
+
+        public function getStatusColorAttribute()
+    {
+        return match ($this->status) {
+            'active' => 'success',
+            'in-active' => 'danger',
+            'suspended' => 'warning',
+            default => 'secondary',
+        };
+    }
 }

@@ -24,6 +24,7 @@ Route::prefix('admin')->controller(AdminController::class)->group(function(){
         Route::get('dashboard',  'dashboard')->name('admin.dashboard');
         Route::patch('updateRequest/{userRequest}/approve', 'accUserRequest')->name('admin.request.approve');
         Route::patch('updateRequest/{userRequest}/reject', 'declineUserRequest')->name('admin.request.reject');
+        Route::get('users/filter', 'filterUsers')->name('admin.users.filter');
 
 });
 

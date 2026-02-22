@@ -5,7 +5,7 @@
                 <a class="nav-link text-dark active" aria-current="page" href="{{ route('admin.dashboard') }}">Dashboard</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark" href="#">Users</a>
+                <a class="nav-link text-dark" href="{{ route('admin.index') }}">Users</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-dark" href="{{ route('admin.user.request') }}">Requests</a>
