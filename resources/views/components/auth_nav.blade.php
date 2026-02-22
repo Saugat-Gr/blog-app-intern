@@ -15,7 +15,7 @@
         </button>
 
         <ul class="dropdown-menu dropdown-menu-end">
-            <li><button class="dropdown-item" type="button"> <a href="#" class="text-decoration-none text-dark">Edit User </a></button></li>
+            <li><button class="dropdown-item" type="button"> <a href="{{ route('admin.edit', Auth::user()->id) }}" class="text-decoration-none text-dark">Edit User </a></button></li>
             <li>
                <form action="{{ route('auth.logout') }}" method="POST">
                 @csrf

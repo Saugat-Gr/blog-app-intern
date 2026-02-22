@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mt-5">
-    <h2 class="mb-4">Pending User Requests</h2>
+    <h2 class="mb-4 text-center mb-5">User Requests</h2>
 
 
     @if($requests->isEmpty())
@@ -24,13 +24,33 @@
                 @foreach($requests as $request)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $request->user_id }}</td>
-                        <td>{{ $request->created_at->format('d M Y H:i') }}</td>
+                        <td>{{ $request->user->name }}</td>
+                        <td>{{ $request->user->user_name }}</td>
+                        <td>{{ $request->user->email }}</td>
+                        <td>{{ $request->created_at->format('d,M - Y') }}</td>
                         <td>
-                            <span class="badge bg-warning text-dark">{{ ucfirst($request->status) }}</span>
+                            <span class="badge bg-{{ $request->status == 'pending' ? 'warning' : 'danger' }} text-dark">{{ ucfirst($request->status) }}</span>
                         </td>
+
                         <td class="d-flex gap-2">
-                          
+                        @if($request->status != 'rejected')
+
+                            <form action="{{ route('admin.request.approve', $request) }}" method="POST">
+                                 @method('PATCH')
+                                 @csrf
+                                 <button type="submit">
+                                    <a href="#"><i class="bi bi-check-circle-fill"></i></a>
+                                 </button>
+                            </form>
+                            <form action="{{ route('admin.request.reject', $request) }}" method="POST">
+                                 @method('PATCH')
+                                 @csrf
+                                 <button type="submit">
+                                    <a href="#"><i class="bi bi-x text-light bg-danger rounded-circle"></i></a>
+                                 </button>
+                            </form>
+                    @endif
+                            <p class="text-center"> - </p>
                         </td>
                     </tr>
                 @endforeach

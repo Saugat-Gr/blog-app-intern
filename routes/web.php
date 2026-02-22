@@ -18,7 +18,15 @@ Route::post('/login', [LoginController::class,'authenticate'])->name('auth.login
 Route::post('/logout', [LoginController::class,'logout'])->name('auth.logout');
 Route::post('/register', [LoginController::class,'register'])->name('auth.register');
 
-Route::get('admin/requests', [AdminController::class,'userRequest'])->name('admin.user.request');
-Route::resource('user', UserController::class);
-Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+Route::prefix('admin')->controller(AdminController::class)->group(function(){
+
+        Route::get('requests', 'renderUserRequest')->name('admin.user.request');
+        Route::get('dashboard',  'dashboard')->name('admin.dashboard');
+        Route::patch('updateRequest/{userRequest}/approve', 'accUserRequest')->name('admin.request.approve');
+        Route::patch('updateRequest/{userRequest}/reject', 'declineUserRequest')->name('admin.request.reject');
+
+});
+
 Route::resource('admin', AdminController::class);
+Route::resource('user', UserController::class);
+

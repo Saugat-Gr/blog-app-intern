@@ -21,7 +21,7 @@ class AdminController extends Controller
         $inactiveUsers = User::where('status', 'in-active')->count();
         $suspendedUsers = User::where('status', 'suspended')->count();
 
-        $recentUsers = User::latest()->take(5)->get();
+        $recentUsers = User::latest()->where('status', 'active')->take(5)->get();
 
         return view('admin.dashboard', compact(
             'totalUsers', 'activeUsers', 'inactiveUsers', 'suspendedUsers', 'recentUsers'
@@ -51,9 +51,8 @@ class AdminController extends Controller
         * @param  int  $id
         * @return Response
         */
-    public function show($id)
+    public function show(User $user)
     {
-        //
     }
 
     /**
@@ -64,7 +63,8 @@ class AdminController extends Controller
         */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+         return view('admin.admin-edit', compact('user'));
     }
 
     /**
@@ -89,13 +89,39 @@ class AdminController extends Controller
         //
     }
 
-    public function userRequest(){
+    public function renderUserRequest(){
 
-
-           $requests = UserRequest::where('status', 'pending')->get();
-
+           $requests = UserRequest::with('user')->where('status', '!=', 'approved')->get();
 
            return view('admin.UserRequest', compact('requests'));
     }
+
+     public function accUserRequest(UserRequest $userRequest){
+     
+             if($userRequest->status === "pending"){
+              $userRequest->status = "approved";
+
+              $userRequest->save();
+              $user = $userRequest->user;
+              $user->status = "active";
+
+              $user->save();
+
+              return redirect()->route("admin.dashboard");
+             }
+
+     }
+
+      public function declineUserRequest(UserRequest $userRequest){
+     
+             if($userRequest->status === "pending"){
+              $userRequest->status = "rejected";
+
+              $userRequest->save();
+
+              return redirect()->route("admin.dashboard");
+             }
+
+     }
 
 }
