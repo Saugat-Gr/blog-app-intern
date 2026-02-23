@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\UserStatus;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterUserRequest extends FormRequest
@@ -29,7 +30,9 @@ class RegisterUserRequest extends FormRequest
             'password' => 'required|min:8|confirmed',
             'image' => 'nullable|mimes:jpeg,jpg,png',
             'user_name' => 'required|unique:users',
-            'date_of_birth' => 'required|date'
+            'date_of_birth' => 'required|date',
+            'role' => 'nullable|in:admin,user',
+            'status' => 'nullable|in:' . implode(',', array_column(UserStatus::cases(), 'value')),
         ];
     }
 

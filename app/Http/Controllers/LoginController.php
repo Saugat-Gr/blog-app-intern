@@ -37,7 +37,7 @@ class LoginController extends Controller
 
       if(Gate::allows('isAdmin')){
         return redirect()->route('admin.dashboard');
-    }else{
+      }else{
       return redirect()->route('user.index');
     }
     
@@ -51,6 +51,7 @@ class LoginController extends Controller
    
         $validated_data = $request->validated();
 
+
         $user = User::create([
             'name'=> $validated_data['name'],
             'email'=> $validated_data['email'],
@@ -59,10 +60,20 @@ class LoginController extends Controller
             'user_name' => $validated_data['user_name'],
          ]);
 
-         $user_request = UserRequest::create([
+         if(Auth::check() && Auth::user()->role == 'admin'){
+              $user->status = 'active';
+              $user->role = $validated_data['role'];
+              $user->status = $validated_data['status'];
+              $user->save();
+         }else{
+               $user_request = UserRequest::create([
               'user_id' => $user->id,
               'status' => 'pending'
          ]);
+
+         
+         }
+
 
           return redirect()->back()->with('success', 'Your request has been submitted. Please wait for admin approval.');
    }

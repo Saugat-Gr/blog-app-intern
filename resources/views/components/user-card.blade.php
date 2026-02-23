@@ -7,16 +7,34 @@
                  width="70"
                  height="70">
 
-            <div>
-                <button class="btn btn-danger">
-                    <a href="#"><i class="bi bi-trash-fill text-light"></i></a>
+            <div class="d-flex gap-1">
+
+                <form action="{{ route('admin.user.destroy', $user) }}" method="POST">
+                 @csrf
+                 @method('DELETE')
+                <button class="btn btn-danger" onclick="return alert('Do you want to remove this user?')">
+                    <i class="bi bi-trash-fill text-light"></i>
                 </button>
+                </form>
+
+                <div>
                 <button class="btn btn-primary">
-                    <a href="#"><i class="bi bi-pencil-square text-light"></i></a>
+                  <a href="{{ route('admin.user.edit', $user) }}"> <i class="bi bi-pencil-square text-light"></i> </a>
                 </button>
-                <button class="btn btn-warning">
-                    <a href="#"><i class="bi bi-ban text-light"></i></a>
+            </div>
+
+
+                 <form action="{{ route('admin.user.suspend', $user) }}" method="POST">
+                 @csrf
+                 @method('PATCH')
+                 <button class="btn btn-{{ $user->status === App\Enums\UserStatus::SUSPENDED ? 'secondary' :'warning' }}" onclick="return alert('Do you want to suspend this user?')"
+                  @disabled($user->status === App\Enums\UserStatus::SUSPENDED)
+                 >
+                    <i class="bi bi-ban text-light"></i>
                 </button>
+                </form>
+                
+               
             </div>
         </div>
 

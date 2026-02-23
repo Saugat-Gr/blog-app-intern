@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mt-5">
-    <h2 class="mb-4 text-center mb-5">User Requests</h2>
+    <h2 class="mb-4 text-center mb-5">Users Request</h2>
 
 
     @if($requests->isEmpty())
@@ -29,7 +29,7 @@
                         <td>{{ $request->user->email }}</td>
                         <td>{{ $request->created_at->format('d,M - Y') }}</td>
                         <td>
-                            <span class="badge bg-{{ $request->status == 'pending' ? 'warning' : 'danger' }} text-dark">{{ ucfirst($request->status) }}</span>
+                            <span class="badge bg-{{ $request->status == 'pending' ? 'warning' : 'danger' }} text-light">{{ ucfirst($request->status) }}</span>
                         </td>
 
                         <td class="d-flex gap-2">
@@ -49,8 +49,9 @@
                                     <a href="#"><i class="bi bi-x text-light bg-danger rounded-circle"></i></a>
                                  </button>
                             </form>
-                    @endif
+                    @else
                             <p class="text-center"> - </p>
+                    @endif
                         </td>
                     </tr>
                 @endforeach

@@ -39,7 +39,7 @@
             <tr>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Status</th>
+                <th>Role</th>
             </tr>
         </thead>
         <tbody>
@@ -48,15 +48,7 @@
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>
-                    @if($user->status == 'active')
-                        <span class="badge bg-success">Active</span>
-                    @elseif($user->status == 'inactive')
-                        <span class="badge bg-warning">Inactive</span>
-                    @elseif($user->status == 'suspended')
-                        <span class="badge bg-danger">Suspended</span>
-                    @else
-                        <span class="badge bg-secondary">{{ $user->status }}</span>
-                    @endif
+                    {{ strtoupper($user->role) }}
                 </td>
             </tr>
             @endforeach

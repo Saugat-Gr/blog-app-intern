@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\UserStatus;
+use Database\Seeders\UserSeeder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -24,7 +26,8 @@ class User extends Authenticatable
         'image',
         'user_name',
         'role',
-        'status'
+        'status',
+        'date_of_birth'
     ];
 
     /**
@@ -47,6 +50,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'status' => UserStatus::class,
+            'date_of_birth' => 'date',
         ];
     }
 
@@ -57,9 +62,9 @@ class User extends Authenticatable
         public function getStatusColorAttribute()
     {
         return match ($this->status) {
-            'active' => 'success',
-            'in-active' => 'danger',
-            'suspended' => 'warning',
+            UserStatus::ACTIVE => 'success',
+            UserStatus::INACTIVE => 'danger',
+            UserStatus::SUSPENDED => 'warning',
             default => 'secondary',
         };
     }
