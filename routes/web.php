@@ -44,6 +44,6 @@ Route::prefix('admin')->controller(AdminController::class)->middleware('can:isAd
 
 });
 
-Route::resource('admin', AdminController::class)->middleware('can:isAdmin');
+Route::resource('admin', AdminController::class);
 Route::resource('user', UserController::class);
 

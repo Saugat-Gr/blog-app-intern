@@ -1,9 +1,7 @@
 <nav class="nav justify-content-center">
     <ul class="d-flex bg-body-secondary align-items-center mt-4 rounded">
             
-       @auth
-
-       @can('isAdmin')
+       
 
             <li class="nav-item">
                 <a class="nav-link text-dark active" aria-current="page" href="{{ route('admin.dashboard') }}">Dashboard</a>
@@ -15,12 +13,10 @@
                 <a class="nav-link text-dark" href="{{ route('admin.user.request') }}">Requests</a>
             </li>
 
-        @endcan
+        
 
-           <li class="nav-item">
-                <a class="nav-link text-dark" href="#">Post</a>
-            </li>
+          
 
-        @endauth
+    
     </ul>
 </nav>
