@@ -85,7 +85,7 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-info w-100">
+                <button type="submit" class="btn bg-danger-subtle w-100">
                     Submit
                 </button>
             </form>

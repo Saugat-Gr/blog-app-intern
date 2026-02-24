@@ -1,6 +1,8 @@
 import './bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
+import EasyMDE from 'easymde';
+import 'easymde/dist/easymde.min.css';
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -28,6 +30,13 @@ document.addEventListener('DOMContentLoaded', function () {
             loginTextEL.classList.add('d-none');
         });
     }
+
+   new EasyMDE({
+    element: document.getElementById('editor'),
+    spellChecker: true,
+    toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link", "preview", "side-by-side", "fullscreen"],
+    maxHeight: '250px'
+});
 
 });
 

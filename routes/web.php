@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PlanController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -40,9 +41,10 @@ Route::prefix('admin')->controller(AdminController::class)->middleware('can:isAd
         Route::delete('user/{user}/destroy', 'destroyUser')->name('admin.user.destroy');
         Route::patch('user/{user}/suspend', 'suspendUser')->name('admin.user.suspend');
 
-        
 
 });
+
+Route::as('admin')->resource('admin/plan', PlanController::class)->middleware('can:isAdmin');
 
 Route::resource('admin', AdminController::class);
 Route::resource('user', UserController::class);
