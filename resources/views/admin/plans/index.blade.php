@@ -14,7 +14,6 @@
             <li><a id="dropdown-item"  class="dropdown-item" href="#" data-status="all">All</a></li>
             <li><a id="dropdown-item" class="dropdown-item" href="#" data-status="active">Active</a></li>
             <li><a id="dropdown-item" class="dropdown-item" href="#" data-status="in-active">In-Active</a></li>
-            <li><a id="dropdown-item" class="dropdown-item" href="#" data-status="suspended">Suspended</a></li>
         </ul>
 </div>
 
@@ -26,7 +25,7 @@
 
 <div id="user-cards" class="d-grid gap-4" style="grid-template-columns: repeat(4, 1fr);">
 
-     
+       @include('admin.plans._plan-cards', ['plans' => $plans])
 
 </div>
 
@@ -46,7 +45,7 @@
 
             filterBtn.textContent = `Filter Users: ${this.textContent}`;
 
-            fetch(`{{ route('admin.users.filter') }}?status=${status}`, {
+            fetch(`/admin/plan/filter/${status}`, {
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'
                 }

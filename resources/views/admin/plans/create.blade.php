@@ -50,13 +50,12 @@
                 <!-- Description -->
                 <div class="mb-3">
                     <label class="form-label">Description</label>
-                    <textarea name="description" id="editor" class="form-control" rows="5" required>{{ old('description', $plan->description ?? '') }}</textarea>
+                    <textarea name="description" id="editor" class="form-control" rows="5">{{ old('description', $plan->description ?? '') }}</textarea>
                     @error('description') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
 
-                <!-- Submit -->
                 <div class="mb-3">
-                    <button type="submit" class="btn btn-primary w-100">
+                    <button type="submit" class="btn bg-danger-subtle w-100">
                         {{ isset($plan) ? 'Update Plan' : 'Create Plan' }}
                     </button>
                 </div>
@@ -65,11 +64,6 @@
     </div>
 
 </div>
-
-<form action="{{ route('admin.plan.store') }}" method="POST">
-     @csrf
-     <button type="submit">SUBMIT</button>
-</form>
 
 <!-- EasyMDE Initialization -->
 @push('scripts')

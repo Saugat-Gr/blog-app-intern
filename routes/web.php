@@ -42,9 +42,15 @@ Route::prefix('admin')->controller(AdminController::class)->middleware('can:isAd
         Route::patch('user/{user}/suspend', 'suspendUser')->name('admin.user.suspend');
 
 
+    //  Plan Controller: 
+        Route::as('admin')->resource('plan',PlanController::class);
+        Route::get('plan/filter/{status}', [PlanController::class,'filterPlans'])->name('admin.plans.filter');
+
+
 });
 
-Route::as('admin')->resource('admin/plan', PlanController::class)->middleware('can:isAdmin');
+
+
 
 Route::resource('admin', AdminController::class);
 Route::resource('user', UserController::class);

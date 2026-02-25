@@ -35,11 +35,8 @@ class LoginController extends Controller
     ])) {
         $request->session()->regenerate();
 
-      if(Gate::allows('isAdmin')){
-        return redirect()->route('admin.dashboard');
-      }else{
-      return redirect()->route('user.index');
-    }
+      return (Gate::allows('isAdmin')) ? redirect()->route('admin.dashboard'):redirect()->route('user.index');
+   
     
     }
       return redirect()->back()->withErrors([

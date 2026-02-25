@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\PlanStatus;
 use App\Http\Requests\Plan\CreateRequest;
+use App\Models\Plan;
 use Illuminate\Http\Request;
 
 class PlanController extends Controller
@@ -13,7 +14,8 @@ class PlanController extends Controller
      */
     public function index()
     {
-        return view('admin.plans.index');
+        $plans = Plan::all();
+        return view('admin.plans.index', compact('plans'));
     }
 
     /**
@@ -30,7 +32,10 @@ class PlanController extends Controller
      */
     public function store(CreateRequest $request)
     {
-        dd($request);   
+         $validated_data = $request->validated();
+         $plan = Plan::create($validated_data);
+
+         return redirect()->route('admin.plan.index');
     }
 
     /**
@@ -63,5 +68,13 @@ class PlanController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function filterPlans(string $status){
+     
+       $plans = $status === 'all' ? Plan::get() : Plan::where('status', $status)->get();
+
+       return view('admin.plans._plan-cards', compact('plans'));
+
     }
 }

@@ -11,7 +11,17 @@ class Plan extends Model
 
     protected function casts(){
          return [
-             'stauts' => PlanStatus::class,
+             'status' => PlanStatus::class,
          ];
+    }
+
+
+        public function getStatusColorAttribute()
+    {
+        return match ($this->status) {
+            PlanStatus::ACTIVE => 'success',
+            PlanStatus::INACTIVE => 'danger',
+            default => 'secondary',
+        };
     }
 }

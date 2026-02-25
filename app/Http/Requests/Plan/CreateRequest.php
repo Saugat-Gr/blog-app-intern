@@ -25,9 +25,9 @@ class CreateRequest extends FormRequest
         return [
             'name' => 'required|min:4',
             'description' => 'required',
-            'price' => 'required|numeric|min:0',,
-            'duration' => 'required|integer|min:1',,
-            'stauts' => 'required|in:'. implode(',', array_column(PlanStatus::cases(), 'value')),
+            'price' => 'required|numeric|min:250',
+            'duration_days' => 'required|integer|min:30',
+            'status' => 'required|in:'. implode(',', array_column(PlanStatus::cases(), 'value')),
         ];
     }
 
@@ -37,7 +37,9 @@ class CreateRequest extends FormRequest
             'name.required' => 'Plan name is required.',
             'description.required' => 'Plan description is required.',
             'price.required' => 'Plan price is required.',
-            'duration.required' => 'Plan duration is required.',
+            'price.min' => 'Price amount should be atleast 250.',
+            'duration_days' => 'Duration of the plan should be atleast 30 days.',
+            'duration_days.required' => 'Plan duration is required.',
             'status.required' => 'Plan status is required.',
         ];
     }
