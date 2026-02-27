@@ -4,6 +4,17 @@ import 'bootstrap';
 import EasyMDE from 'easymde';
 import 'easymde/dist/easymde.min.css';
 
+
+// resources/js/app.js
+import ApexCharts from 'apexcharts';
+
+// Make them global so you can access in Blade inline scripts if needed
+window.ApexCharts = ApexCharts;
+window.EasyMDE = EasyMDE;
+
+// Example: you can still initialize things here
+
+
 document.addEventListener('DOMContentLoaded', function () {
 
     const registerBtnEL = document.querySelector('#btn-register');
