@@ -13,7 +13,7 @@
     </div>
 
     
-    <div class="flex-fill border bg-white shadow-lg rounded login-form p-4">
+    <div class="flex-fill border bg-white shadow-lg rounded login-form p-4 d-flex flex-column justify-content-center">
         <h3 class="mt-3 text-center">Login</h3>
 
         <form action="{{ route('auth.login') }}" method="POST" class="mt-4">
@@ -34,14 +34,6 @@
                 @enderror
             </div>
 
-
-            <div class="mb-3">
-                <label>Confirm Password</label>
-                <input type="password" class="form-control" name="password_confirmation" required>
-            @error('password_confirmation', 'log-in')
-                        <span class="text-danger">{{$message}}</span>
-                @enderror
-            </div>
 
         <div class="mt-2">
             @error('invalid-login', 'log-in')
