@@ -7,16 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Plan extends Model
 {
+
     protected $fillable = ['name', 'description', 'status', 'price', 'duration_days'];
 
-    protected function casts(){
-         return [
-             'status' => PlanStatus::class,
-         ];
-    }
+    // Correct enum cast
+    protected $casts = [
+        'status' => PlanStatus::class,
+    ];
 
-
-        public function getStatusColorAttribute()
+    public function getStatusColorAttribute()
     {
         return match ($this->status) {
             PlanStatus::ACTIVE => 'success',

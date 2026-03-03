@@ -12,7 +12,7 @@
 
                 <div>
                      <button class="btn bg-danger-subtle">
-                        <a href="#"><i class="bi bi-eye-fill text-dark"></i></a>
+                        <a href="{{ route('admin.plan.show', $plan) }}"><i class="bi bi-eye-fill text-dark"></i></a>
                      </button>
                 </div>
 
