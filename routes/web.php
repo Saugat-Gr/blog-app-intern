@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\UserController;
@@ -54,3 +55,13 @@ Route::prefix('admin')->controller(AdminController::class)->middleware('can:isAd
 Route::resource('admin', AdminController::class);
 Route::resource('user', UserController::class);
 
+Route::get('/send-email', [EmailController::class, 'sendEmail'])->name('send.email');
+
+Route::get('/test', function(){
+    $email = 'gganosh9@test.com';
+        $apiKey = env('EMAILVERIFY_API_KEY');
+    $response = Http::get(
+    "https://app.emailverify.io/api/v1/validate?key={$apiKey}&email={$email}"
+);
+  return $response->json();
+});

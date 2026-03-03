@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterUserRequest;
+use App\Jobs\ValidateAndCreateUser;
 use App\Models\User;
 use App\Models\UserRequest;
 use Illuminate\Http\Request;
@@ -49,30 +50,9 @@ class LoginController extends Controller
         $validated_data = $request->validated();
 
 
-        $user = User::create([
-            'name'=> $validated_data['name'],
-            'email'=> $validated_data['email'],
-            'password'=> bcrypt($validated_data['password']),
-            'status' => 'in-active',
-            'user_name' => $validated_data['user_name'],
-         ]);
+        ValidateAndCreateUser::dispatch($validated_data);
 
-         if(Auth::check() && Auth::user()->role == 'admin'){
-              $user->status = 'active';
-              $user->role = $validated_data['role'];
-              $user->status = $validated_data['status'];
-              $user->save();
-         }else{
-               $user_request = UserRequest::create([
-              'user_id' => $user->id,
-              'status' => 'pending'
-         ]);
-
-         
-         }
-
-
-          return redirect()->back()->with('success', 'Your request has been submitted. Please wait for admin approval.');
+       return redirect()->back()->with('success', 'Your registration is being processed...');
    }
 
    public function logout(){
