@@ -157,7 +157,7 @@
                             </a>
 
                             <button type="submit"
-                                    class="btn bg-danger-subtle  px-4 shadow-sm">
+                                    class="btn bg-danger-subtle text-dark px-4 shadow-sm">
                                 Update User
                             </button>
                         </div>
