@@ -7,6 +7,7 @@ use App\Http\Requests\RegisterUserRequest;
 use App\Jobs\ValidateAndCreateUser;
 use App\Models\User;
 use App\Models\UserRequest;
+use App\Traits\ToastrTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -15,6 +16,7 @@ use function PHPUnit\Framework\returnArgument;
 
 class LoginController extends Controller
 {
+    use ToastrTrait;
 
    public function showLoginForm(){
       return view('auth.login');
@@ -36,6 +38,8 @@ class LoginController extends Controller
     ])) {
         $request->session()->regenerate();
 
+        $this->toastrSuccess('You have successfully logged in!');
+
       return (Gate::allows('isAdmin')) ? redirect()->route('admin.dashboard'):redirect()->route('user.index');
    
     
@@ -52,7 +56,9 @@ class LoginController extends Controller
 
         ValidateAndCreateUser::dispatch($validated_data);
 
-       return redirect()->back()->with('success', 'Your registration is being processed...');
+        $this->toastrInfo('Your registration is being processed...');
+
+       return redirect()->back();
    }
 
    public function logout(){
@@ -60,6 +66,7 @@ class LoginController extends Controller
         if(Auth::user()){
            Auth::logout();
 
+           $this->toastrSuccess('You have been logged out.');
            return redirect()->route('auth.login');
         }
 

@@ -3,6 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import EasyMDE from 'easymde';
 import 'easymde/dist/easymde.min.css';
+import toastr from 'toastr';
+import 'toastr/build/toastr.min.css';
 
 
 // resources/js/app.js
@@ -11,8 +13,7 @@ import ApexCharts from 'apexcharts';
 // Make them global so you can access in Blade inline scripts if needed
 window.ApexCharts = ApexCharts;
 window.EasyMDE = EasyMDE;
-
-// Example: you can still initialize things here
+window.toastr = toastr;
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -48,6 +49,13 @@ document.addEventListener('DOMContentLoaded', function () {
     toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link", "preview", "side-by-side", "fullscreen"],
     maxHeight: '250px'
 });
+
+   if (window.flash) {
+        toastr[window.flash.type](
+            window.flash.message,
+            window.flash.title
+        );
+    }
 
 });
 

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Traits\ToastrTrait;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    use ToastrTrait;
+
       public function __construct(){ 
            $this->middleware("auth.check");
       }

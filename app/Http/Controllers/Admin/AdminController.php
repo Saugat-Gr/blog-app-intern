@@ -7,10 +7,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminEditUserRequest;
 use App\Models\User;
 use App\Models\UserRequest;
+use App\Traits\ToastrTrait;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+      use ToastrTrait;
+
+
     public function __construct()  {
          $this->middleware("auth.check");
     }
