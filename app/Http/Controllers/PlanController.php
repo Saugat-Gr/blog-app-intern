@@ -6,16 +6,28 @@ use App\Enums\PlanStatus;
 use App\Http\Requests\Plan\CreateRequest;
 use App\Http\Requests\Plan\UpdateRequest;
 use App\Models\Plan;
+use App\Repositories\Interfaces\PlanRepositoryInterface;
+use App\Traits\ToastrTrait;
 use Illuminate\Http\Request;
 
 class PlanController extends Controller
 {
+
+    use ToastrTrait;
+
+    protected $planRepo;
+
+     public function __construct(PlanRepositoryInterface $planRepo){
+         $this->middleware("auth");
+         $this->planRepo = $planRepo;
+     }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $plans = Plan::all();
+        $plans = $this->planRepo->getAllPlans();
         return view('admin.plans.index', compact('plans'));
     }
 
@@ -34,7 +46,13 @@ class PlanController extends Controller
     public function store(CreateRequest $request)
     {
          $validated_data = $request->validated();
-         $plan = Plan::create($validated_data);
+         $plan = $this->planRepo->createPlan($validated_data);
+
+         if($plan){
+            $this->toastrSuccess('Plan created successfully');
+         }else{
+            $this->toastrError('Failed to create plan');
+         }
 
          return redirect()->route('admin.plan.index');
     }
@@ -62,7 +80,13 @@ class PlanController extends Controller
     public function update(UpdateRequest $request, Plan $plan)
     {
         $validated_data = $request->validated();
-        $plan->update($validated_data);
+        $plan = $this->planRepo->updatePlan($plan, $validated_data);
+
+        if($plan){
+            $this->toastrSuccess('Plan updated successfully');
+         }else{
+            $this->toastrError('Failed to update plan');
+         }  
 
         return redirect()->route('admin.plan.index');
 
@@ -73,13 +97,19 @@ class PlanController extends Controller
      */
     public function destroy(Plan $plan)
     {
-        $plan->delete();
+        $this->planRepo->deletePlan($plan);
+
+        if($plan){
+            $this->toastrSuccess('Plan deleted successfully');
+         }else{
+            $this->toastrError('Failed to delete plan');
+         }  
         return redirect()->route('admin.plan.index');
     }
 
-    public function filterPlans(string $status){
+    public function filterPlans(PlanStatus $status){
      
-       $plans = $status === 'all' ? Plan::get() : Plan::where('status', $status)->get();
+       $plans = $status === PlanStatus::ALL ? $this->planRepo->getAllPlans() : $this->planRepo->getPlanByStatus($status);
 
        return view('admin.plans._plan-cards', compact('plans'));
 
