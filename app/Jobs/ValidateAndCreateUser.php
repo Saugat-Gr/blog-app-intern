@@ -46,13 +46,7 @@ class ValidateAndCreateUser implements ShouldQueue
             $result['sub_status'] === 'permitted'
         ) {
 
-            $user = User::create([
-                'name' => $this->data['name'],
-                'email' => $email,
-                'password' => bcrypt($this->data['password']),
-                'status' => 'active',
-                'user_name' => $this->data['user_name'],
-            ]);
+            $user = User::create($this->data);
 
             Mail::to($user->email)->queue(
                 new IdentifyMail(

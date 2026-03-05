@@ -82,10 +82,12 @@
                             <select name="status"
                                     class="form-select form-select-lg @error('status') is-invalid @enderror">
                                 @foreach($statuses as $status)
-                                    <option value="{{ $status->value }}"
+                                  @if($status->value !== 'all')
+                                     <option value="{{ $status->value }}"
                                         {{ old('status', $plan->status ?? '') == $status->value ? 'selected' : '' }}>
                                         {{ ucfirst($status->value) }}
                                     </option>
+                                  @endif
                                 @endforeach
                             </select>
 

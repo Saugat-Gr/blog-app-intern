@@ -76,13 +76,15 @@
                         {{-- Status --}}
                             <div class="mb-4">
                             <label class="form-label fw-semibold">Status</label>
-                            <select name="status"
+                             <select name="status"
                                     class="form-select form-select-lg @error('status') is-invalid @enderror">
                                 @foreach($statuses as $status)
-                                    <option value="{{ $status->value }}"
-                                        @selected(old('status', $plan->status->value) == $status->value)>
+                                  @if($status->value !== 'all')
+                                     <option value="{{ $status->value }}"
+                                        {{ old('status', $plan->status ?? '') == $status->value ? 'selected' : '' }}>
                                         {{ ucfirst($status->value) }}
                                     </option>
+                                  @endif
                                 @endforeach
                             </select>
 

@@ -97,7 +97,7 @@
                             <label class="form-label fw-semibold">Date of Birth</label>
                             <input type="date"
                                    name="date_of_birth"
-                                   value="{{ old('date_of_birth', $user->date_of_birth ? $user->date_of_birth->format('Y-m-d') : '') }}"
+                                   value="{{ old('date_of_birth', $user->date_of_birth ? $user->date_of_birth->format('m-d-Y') : '') }}"
                                    class="form-control @error('date_of_birth') is-invalid @enderror">
 
                             @error('date_of_birth')
