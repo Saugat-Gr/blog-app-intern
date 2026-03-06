@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html>
-<body>
-    <h2>Password Reset</h2>
-    <p>Click the link below to reset your password:</p>
+<h2>Password Reset Request</h2>
 
-    <a href="{{ $resetUrl }}">
-        Reset Password
-    </a>
+<p>Click the button below to reset your password:</p>
 
-    <p>This link will expire in 60 minutes.</p>
-</body>
-</html>
+<a href="{{ $resetUrl }}">Reset Password</a>
+
+<p>This link will expire in 60 minutes.</p>

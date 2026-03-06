@@ -32,6 +32,7 @@
             @error('password', 'log-in')
                         <span class="text-danger">{{$message}}</span>
                 @enderror
+                <a href="{{ route('password.request') }}" class="inline-block mt-4">Forgot Password?</a>
             </div>
 
 

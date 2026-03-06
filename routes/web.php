@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PlanController;
@@ -57,11 +59,20 @@ Route::resource('user', UserController::class);
 
 Route::get('/send-email', [EmailController::class, 'sendEmail'])->name('send.email');
 
-Route::get('/test', function(){
-    $email = 'gganosh9@test.com';
-        $apiKey = env('EMAILVERIFY_API_KEY');
-    $response = Http::get(
-    "https://app.emailverify.io/api/v1/validate?key={$apiKey}&email={$email}"
-);
-  return $response->json();
-});
+// Show form to request password reset
+Route::get('/forgot-password', function () {
+    return view('auth.forgot-password');
+})->name('password.request');
+
+// Handle sending reset link
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])
+    ->name('password.email');
+
+// Show form to reset password (user clicks link)
+// Show reset form
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])
+    ->name('password.reset');
+
+// Handle reset form submission
+Route::post('/reset-password', [ResetPasswordController::class, 'reset'])
+    ->name('password.update');
