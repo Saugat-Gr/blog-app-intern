@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Prompts\Concerns\Fallback;
+use Spatie\Permission\Models\Role;
 use function PHPUnit\Framework\returnArgument;
 
 class LoginController extends Controller
@@ -19,7 +20,9 @@ class LoginController extends Controller
     use ToastrTrait;
 
    public function showLoginForm(){
-      return view('auth.login');
+
+      return auth()->user() ? redirect()->route('dashboard') : redirect()->route('login');
+       
    }
 
 
@@ -40,9 +43,8 @@ class LoginController extends Controller
 
         $this->toastrSuccess('You have successfully logged in!');
 
-      return (Gate::allows('isAdmin')) ? redirect()->route('admin.dashboard'):redirect()->route('user.index');
+      return (auth()->user()->role(['admin', 'super-admin'] )) ? redirect()->route('admin.dashboard'):redirect()->route('user.index');
    
-    
     }
       return redirect()->back()->withErrors([
         'invalid-login' => 'The login credentials donot match our records'], 'log-in');

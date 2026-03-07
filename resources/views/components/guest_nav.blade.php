@@ -3,7 +3,7 @@
   
     <div class="d-flex gap-3 align-items-center"> 
         <a class="navbar-brand text-dark" href="#">
-           Gates And Policies
+           {{ env('APP_NAME', 'DEMO') }}
         </a>
     </div>
 

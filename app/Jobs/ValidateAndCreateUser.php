@@ -27,6 +27,7 @@ class ValidateAndCreateUser implements ShouldQueue
     {
         $email = $this->data['email'];
         $apiKey = env('EMAILVERIFY_API_KEY');
+        \Log::info("User Data: ", $this->data);
 
         try {
             $response = Http::get(
@@ -35,31 +36,36 @@ class ValidateAndCreateUser implements ShouldQueue
 
             $result = $response->json();
 
-             // Log API response for debugging
-        \Log::info('Email Verify Response:', $result);
+            \Log::info('Email Verify Response:', $result);
 
-        // ✅ Correct validation condition
-        if (
-            isset($result['status']) &&
-            $result['status'] === 'valid' &&
-            isset($result['sub_status']) &&
-            $result['sub_status'] === 'permitted'
-        ) {
+            // ✅ Correct validation condition
+            if (
+                isset($result['status']) &&
+                $result['status'] === 'valid' &&
+                isset($result['sub_status']) &&
+                $result['sub_status'] === 'permitted'
+            ) {
 
-            $user = User::create($this->data);
+                $userData = collect($this->data)->except('role')->toArray();
+                $user = User::create($userData);
 
-            Mail::to($user->email)->queue(
-                new IdentifyMail(
-                    "Your account has been successfully activated!",
-                    "Account Activated"
-                )
-            );
+                \Log::info("User created with email: {$email}");
 
-            \Log::info("User created successfully: {$email}");
+                $roleToAssign = $this->data['role'] ?? 'user';
+                $user->assignRole($roleToAssign);
 
-        } else {
-            \Log::warning("Invalid email attempted: {$email}", $result);
-        }
+                Mail::to($user->email)->queue(
+                    new IdentifyMail(
+                        "Your account has been successfully activated!",
+                        "Account Activated"
+                    )
+                );
+
+                \Log::info("User created successfully: {$email}");
+
+            } else {
+                \Log::warning("Invalid email attempted: {$email}", $result);
+            }
         } catch (\Exception $e) {
             \Log::error("Email verification failed for $email", [
                 'error' => $e->getMessage()

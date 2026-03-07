@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminEditUserRequest;
@@ -194,7 +195,8 @@ class AdminController extends Controller
     public function editUser(User $user)
     {
         $statuses = UserStatus::cases();
-        return view('admin.user.edit', compact('user', 'statuses'));
+        $roles = UserRole::cases();
+        return view('admin.user.edit', compact('user', 'statuses', 'roles'));
     }
 
     public function updateUser(AdminEditUserRequest $request, User $user)

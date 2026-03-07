@@ -8,11 +8,13 @@ use Database\Seeders\UserSeeder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, \Illuminate\Auth\Authenticatable;
+    use HasFactory, Notifiable, \Illuminate\Auth\Authenticatable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -25,7 +27,6 @@ class User extends Authenticatable
         'password',
         'image',
         'user_name',
-        'role',
         'status',
         'date_of_birth'
     ];
@@ -67,5 +68,9 @@ class User extends Authenticatable
             UserStatus::SUSPENDED => 'warning',
             default => 'secondary',
         };
+    }
+
+    public function posts(){
+          return $this->hasMany(Post::class, 'author_id', 'id');
     }
 }

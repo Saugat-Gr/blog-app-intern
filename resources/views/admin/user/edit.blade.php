@@ -97,7 +97,7 @@
                             <label class="form-label fw-semibold">Date of Birth</label>
                             <input type="date"
                                    name="date_of_birth"
-                                   value="{{ old('date_of_birth', $user->date_of_birth ? $user->date_of_birth->format('m-d-Y') : '') }}"
+                                   value="{{ old('date_of_birth', $user->date_of_birth ? $user->date_of_birth->format('Y-m-d') : '') }}"
                                    class="form-control @error('date_of_birth') is-invalid @enderror">
 
                             @error('date_of_birth')
@@ -128,18 +128,16 @@
                         </div>
 
                         {{-- Role --}}
-                        <div class="mb-5">
-                            <label class="form-label fw-semibold">Role</label>
-                            <select name="role"
-                                    class="form-select form-select-lg @error('role') is-invalid @enderror">
-                                <option value="admin"
-                                    {{ old('role', $user->role) === 'admin' ? 'selected' : '' }}>
-                                    Admin
-                                </option>
-                                <option value="user"
-                                    {{ old('role', $user->role) === 'user' ? 'selected' : '' }}>
-                                    User
-                                </option>
+                       <div class="mb-4">
+                            <label class="form-label fw-semibold">Status</label>
+                            <select name="status"
+                                    class="form-select form-select-lg @error('status') is-invalid @enderror">
+                                @foreach ($roles as $role)
+                                    <option value="{{ $role->value }}"
+                                        {{ old('role', $user->role->value ?? $user->role) == $role->value ? 'selected' : '' }}>
+                                        {{ ucfirst($role->value) }}
+                                    </option>
+                                @endforeach
                             </select>
 
                             @error('role')
@@ -155,6 +153,7 @@
                                class="btn btn-outline-dark px-4">
                                 Cancel
                             </a>
+
 
                             <button type="submit"
                                     class="btn bg-danger-subtle text-dark px-4 shadow-sm">

@@ -14,7 +14,7 @@ class RegisterUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->check() && auth()->user()->hasRole([ 'super-admin']) || !auth()->check();
     }
 
     /**
@@ -31,7 +31,7 @@ class RegisterUserRequest extends FormRequest
             'image' => 'nullable|mimes:jpeg,jpg,png',
             'user_name' => 'required|unique:users',
             'date_of_birth' => 'required|date',
-            'role' => 'nullable|in:admin,user',
+            'role' => 'nullable|in:admin,user,super-admin,editor',
             'status' => 'nullable|in:' . implode(',', array_column(UserStatus::cases(), 'value')),
         ];
     }

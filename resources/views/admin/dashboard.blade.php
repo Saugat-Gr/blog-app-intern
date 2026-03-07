@@ -52,7 +52,6 @@
             <tr>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Role</th>
             </tr>
         </thead>
         <tbody>
@@ -60,7 +59,6 @@
                 <tr>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
-                    <td>{{ strtoupper($user->role) }}</td>
                 </tr>
             @endforeach
         </tbody>

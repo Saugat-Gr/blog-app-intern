@@ -13,6 +13,7 @@
                     <h5 class="text-uppercase text-muted small mb-1">
                         User Management
                     </h5>
+
                     <h2 class="fw-bold mb-0">
                         Create New User
                     </h2>
