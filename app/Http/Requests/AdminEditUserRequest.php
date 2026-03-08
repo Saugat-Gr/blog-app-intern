@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,7 +26,7 @@ class AdminEditUserRequest extends FormRequest
         return [
             'name' => 'required',
             'user_name' => 'required|unique:users,user_name,' . $this->user->id,
-            'role' => 'required|in:admin,user',
+            'role' => 'required|in:' . implode(',', array_column(UserRole::cases(), 'value')),
             'status'=> 'required|in:' . implode(',', array_column(UserStatus::cases(), 'value')),
             'image' => 'nullable|mimes:jpeg,png,jpg',
             'date_of_birth' => 'required|date'

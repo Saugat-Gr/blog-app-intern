@@ -130,7 +130,7 @@
                         {{-- Role --}}
                        <div class="mb-4">
                             <label class="form-label fw-semibold">Status</label>
-                            <select name="status"
+                            <select name="role"
                                     class="form-select form-select-lg @error('status') is-invalid @enderror">
                                 @foreach ($roles as $role)
                                     <option value="{{ $role->value }}"
